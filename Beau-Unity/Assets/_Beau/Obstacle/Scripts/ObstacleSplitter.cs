@@ -7,8 +7,17 @@ public class ObstacleSplitter : MonoBehaviour
     [SerializeField] private GameObject rightHalf;
     [SerializeField] private float splitForce = 1f;
 
+    private bool isSplit = false;
+
     public void Split()
     {
+        if (isSplit)
+        {
+            return;
+        }
+
+        isSplit = true;
+        
         //中央スプライトを非表示
         wholeSprite.SetActive(false);
         leftHalf.SetActive(true);
@@ -18,7 +27,14 @@ public class ObstacleSplitter : MonoBehaviour
         var leftRb = leftHalf.GetComponent<Rigidbody2D>();
         var rightRb = rightHalf.GetComponent<Rigidbody2D>();
 
-        leftRb.AddForce(new Vector2(-splitForce, -splitForce), ForceMode2D.Impulse);
-        rightRb.AddForce(new Vector2(splitForce, -splitForce), ForceMode2D.Impulse);
+        if (leftRb != null)
+        {
+            leftRb.AddForce(new Vector2(-splitForce, -splitForce), ForceMode2D.Impulse);
+        }
+
+        if (rightRb != null)
+        {
+            rightRb.AddForce(new Vector2(splitForce, -splitForce), ForceMode2D.Impulse);
+        }
     }
 }

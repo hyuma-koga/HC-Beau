@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - MouseBarrier
+  - Obstacle
   layers:
   - Default
   - TransparentFX
