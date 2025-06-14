@@ -2,13 +2,12 @@ using UnityEngine;
 
 public class MouseBarrierController : MonoBehaviour
 {
-    private Camera mainCamera;
-
-    // 制限範囲（ワールド座標で設定）
     [SerializeField] private float minX = -2.5f;
     [SerializeField] private float maxX = 2.5f;
     [SerializeField] private float minYOffset = -4.6f;
     [SerializeField] private float maxYOffset = 4.6f;
+
+    private Camera mainCamera;
 
     void Start()
     {

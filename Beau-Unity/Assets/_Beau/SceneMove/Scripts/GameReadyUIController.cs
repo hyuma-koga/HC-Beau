@@ -4,7 +4,7 @@ public class GameReadyUIController : MonoBehaviour
 {
     [SerializeField] private GameObject gameReadyUI;
     [SerializeField] private GameObject mouseBarrier;
-    [SerializeField] private PlayerController balloonController;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private ObstacleSpawner obstacleSpawner;
 
     private bool waitingForClick = false;
@@ -26,7 +26,10 @@ public class GameReadyUIController : MonoBehaviour
 
     private void Update()
     {
-        if (!waitingForClick) return;
+        if (!waitingForClick)
+        {
+            return;
+        }
 
         if (skipFirstFrame)
         {
@@ -44,9 +47,9 @@ public class GameReadyUIController : MonoBehaviour
     {
         gameReadyUI.SetActive(false);
 
-        if (balloonController != null)
+        if (playerController != null)
         {
-            balloonController.StartRise();
+            playerController.StartRise();
         }
 
         if (obstacleSpawner != null)

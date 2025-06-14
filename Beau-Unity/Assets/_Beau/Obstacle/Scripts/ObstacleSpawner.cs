@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ObstacleSpawner : MonoBehaviour
 {
@@ -9,10 +10,7 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private float fixedX = -0.3f;
     [SerializeField] private Transform cameraTarget;
 
-    //private void Start()
-    //{
-    //    SpawnObstacleLine();
-    //}
+    private List<GameObject> spawnedObstacles = new List<GameObject>();
 
     public void SpawnObstacleLine()
     {
@@ -27,7 +25,22 @@ public class ObstacleSpawner : MonoBehaviour
         {
             float y = startY + (spacingY * i);
             Vector3 spawnPos = new Vector3(fixedX, y, 0f);
-            Instantiate(obstaclePrefab, spawnPos, Quaternion.identity);
+
+            GameObject obstacle = Instantiate(obstaclePrefab, spawnPos, Quaternion.identity);
+            spawnedObstacles.Add(obstacle);
         }
+    }
+
+    public void ClearObstacles()
+    {
+        foreach(var obs in spawnedObstacles)
+        {
+            if(obs != null)
+            {
+                Destroy(obs);
+            }
+        }
+
+        spawnedObstacles.Clear();
     }
 }
