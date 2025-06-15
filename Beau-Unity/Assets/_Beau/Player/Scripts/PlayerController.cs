@@ -14,37 +14,67 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
         initialPosition = transform.position;
+        Debug.Log($"[Start] 初期位置: {initialPosition}");
     }
 
     private void FixedUpdate()
     {
-        if (!isStarted)
+        if (!isStarted || rb == null)
         {
+            rb.linearVelocity = Vector2.zero;
+            Debug.Log($"[FixedUpdate] isStarted: false または rb未設定 → 上昇しない (vel={rb?.linearVelocity})");
             return;
         }
 
         rb.linearVelocity = new Vector2(0f, riseSpeed);
+        Debug.Log($"[FixedUpdate] isStarted: true → 上昇中 (vel={rb.linearVelocity})");
     }
 
     public void StartRise()
     {
         isStarted = true;
+        Debug.Log("[StartRise] プレイヤー上昇開始");
     }
 
-    public void ResetPlayer()
+    // プレイヤーのステータスだけ初期化（表示はしない）
+    public void PrepareReset()
     {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
         isStarted = false;
         rb.linearVelocity = Vector2.zero;
+        transform.position = initialPosition;
+        rb.simulated = true;
+        rb.gravityScale = 0;
 
-        // プレイヤーを初期位置に戻す（Z = 0 で2Dカメラと整合）
-        transform.position = new Vector3(initialPosition.x, initialPosition.y, 0f);
+        Collider2D col = GetComponent<Collider2D>();
+
+        if(col != null)
+        {
+            col.enabled = true;
+        }
+
+        Debug.Log($"[PrepareReset] 状態リセット: pos={transform.position}, vel={rb.linearVelocity}");
+        GetComponent<PlayerCollisionHandle>()?.ResetCollision();
+    }
+
+    public void ShowOnly()
+    {
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
+
         gameObject.SetActive(true);
+        isStarted = false;
+        rb.linearVelocity = new Vector2(0f, 0f);
+    }
 
-        // カメラを強制的にプレイヤー位置に戻す（上に少しオフセットあり）
-        Camera.main.transform.position = new Vector3(
-            Camera.main.transform.position.x,
-            transform.position.y + 1f,  // ← offsetYを調整して画面中央に
-            Camera.main.transform.position.z
-        );
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        GameOverUIHandler.Instance?.ShowGameOverUI();
     }
 }

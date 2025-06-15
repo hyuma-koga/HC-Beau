@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerCollisionHandle : MonoBehaviour
 {
     [SerializeField] private GameObject mouseBarrier;
-    [SerializeField] private GameOverCountdownController countdownController;
+    [SerializeField] private GameOverUIHandler gameOverUIHandler;
 
     private bool isGameOver = false;
 
@@ -16,10 +16,8 @@ public class PlayerCollisionHandle : MonoBehaviour
 
         isGameOver = true;
 
-        //Balloonを非アクティブにして
         gameObject.SetActive(false);
 
-        //マウスバリアとカーソルを無効に
         if (mouseBarrier != null)
         {
             mouseBarrier.SetActive(false);
@@ -27,10 +25,16 @@ public class PlayerCollisionHandle : MonoBehaviour
 
         Cursor.visible = false;
 
-        //カウントダウン開始
-        if (countdownController != null)
+        if(gameOverUIHandler != null)
         {
-            countdownController.StartCountdown();
+            gameOverUIHandler.ShowGameOverUI();
         }
+
+        Debug.Log("ゲームオーバー:プレイヤーとバリア非表示、UI表示");
+    }
+
+    public void ResetCollision()
+    {
+        isGameOver = false;
     }
 }
