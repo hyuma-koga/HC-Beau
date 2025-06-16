@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 3131524548545830393}
   - component: {fileID: 2911877754890667247}
   m_Layer: 0
-  m_Name: Obstacle_Bar
+  m_Name: Obstacle_Bar_Prefab
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

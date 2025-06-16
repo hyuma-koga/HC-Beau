@@ -43,8 +43,6 @@ public class GameWaitUIHandler : MonoBehaviour
             var camFollow = Camera.main.GetComponent<CameraFollow>();
             camFollow?.SetTarget(player.transform);
         }
-
-        Debug.Log("待機画面：クリック待ち状態へ");
     }
 
     private void Update()
@@ -92,7 +90,5 @@ public class GameWaitUIHandler : MonoBehaviour
 
         Time.timeScale = 1f;
         waitingForClick = false;
-
-        Debug.Log("ゲーム開始：クリックによち待機画面を終了");
     }
 }

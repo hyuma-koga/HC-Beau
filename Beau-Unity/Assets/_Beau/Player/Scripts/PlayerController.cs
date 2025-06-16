@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = 0;
         rb.linearVelocity = Vector2.zero;
         initialPosition = transform.position;
-        Debug.Log($"[Start] 初期位置: {initialPosition}");
     }
 
     private void FixedUpdate()
@@ -22,18 +21,15 @@ public class PlayerController : MonoBehaviour
         if (!isStarted || rb == null)
         {
             rb.linearVelocity = Vector2.zero;
-            Debug.Log($"[FixedUpdate] isStarted: false または rb未設定 → 上昇しない (vel={rb?.linearVelocity})");
             return;
         }
 
         rb.linearVelocity = new Vector2(0f, riseSpeed);
-        Debug.Log($"[FixedUpdate] isStarted: true → 上昇中 (vel={rb.linearVelocity})");
     }
 
     public void StartRise()
     {
         isStarted = true;
-        Debug.Log("[StartRise] プレイヤー上昇開始");
     }
 
     // プレイヤーのステータスだけ初期化（表示はしない）
@@ -57,7 +53,6 @@ public class PlayerController : MonoBehaviour
             col.enabled = true;
         }
 
-        Debug.Log($"[PrepareReset] 状態リセット: pos={transform.position}, vel={rb.linearVelocity}");
         GetComponent<PlayerCollisionHandle>()?.ResetCollision();
     }
 

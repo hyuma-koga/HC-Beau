@@ -101,7 +101,6 @@ public class GameOverUIHandler : MonoBehaviour
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        Debug.Log("ゲームオーバー画面表示＆カウント開始");
     }
 
     public void OnRestartButtonPressed()
@@ -143,7 +142,6 @@ public class GameOverUIHandler : MonoBehaviour
         }
 
         Time.timeScale = 0f;
-        Debug.Log("タイトル画面に戻る");
     }
 
     private void ShowWaitUI()
@@ -181,7 +179,6 @@ public class GameOverUIHandler : MonoBehaviour
         }
 
         Time.timeScale = 1f;
-        Debug.Log("waitUI表示に移行");
     }
 
     private void ResetPlayerPosition()
@@ -193,10 +190,6 @@ public class GameOverUIHandler : MonoBehaviour
             if (rb != null)
             {
                 rb.linearVelocity = Vector2.zero;
-            }
-            else
-            {
-                Debug.LogWarning("Rigidbody2D がプレイヤーに見つかりませんでした");
             }
         }
     }

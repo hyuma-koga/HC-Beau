@@ -12,6 +12,19 @@ public class GameStartUIHandler : MonoBehaviour
 
     private Vector3 initialPlayerPosition = new Vector3(0f, -2.2f, 0f);
 
+    private void Start()
+    {
+        if(waitUI != null)
+        {
+            waitUI.SetActive(false);
+        }
+
+        if(mouseBarrier != null)
+        {
+            mouseBarrier.SetActive(false);
+        }
+    }
+
     private void OnEnable()
     {
         if(titleUI != null)
@@ -41,7 +54,6 @@ public class GameStartUIHandler : MonoBehaviour
         Time.timeScale = 0f;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        Debug.Log("ゲーム起動時：タイトルUIを表示");
     }
 
     public void OnStartButtonPressed()
@@ -70,6 +82,5 @@ public class GameStartUIHandler : MonoBehaviour
         Time.timeScale = 0f;
 
         FindFirstObjectByType<GameWaitUIHandler>()?.EnableWaitInput();
-        Debug.Log("Startボタンが押されました：WaitUIに遷移");
     }
 }

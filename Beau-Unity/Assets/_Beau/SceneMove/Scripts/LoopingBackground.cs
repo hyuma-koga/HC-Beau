@@ -14,11 +14,6 @@ public class LoopingBackground : MonoBehaviour
             if (sr != null)
             {
                 backgroundHeight = sr.bounds.size.y;
-                Debug.Log($"[LoopingBackground] ”wŒi‚‚³‚ğ©“®İ’è: {backgroundHeight}");
-            }
-            else
-            {
-                Debug.LogWarning("SpriteRenderer ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½");
             }
         }
     }

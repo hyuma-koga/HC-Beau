@@ -29,8 +29,6 @@ public class PlayerCollisionHandle : MonoBehaviour
         {
             gameOverUIHandler.ShowGameOverUI();
         }
-
-        Debug.Log("ゲームオーバー:プレイヤーとバリア非表示、UI表示");
     }
 
     public void ResetCollision()
