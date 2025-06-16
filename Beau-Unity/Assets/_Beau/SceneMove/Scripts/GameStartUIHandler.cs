@@ -5,6 +5,7 @@ public class GameStartUIHandler : MonoBehaviour
     [Header("UIオブジェクト")]
     [SerializeField] private GameObject titleUI;
     [SerializeField] private GameObject waitUI;
+    [SerializeField] private ScoreUIController scoreUI;
 
     [Header("ゲームオブジェクト")]
     [SerializeField] private GameObject player;
@@ -23,6 +24,8 @@ public class GameStartUIHandler : MonoBehaviour
         {
             mouseBarrier.SetActive(false);
         }
+
+        scoreUI?.SetActive(false);
     }
 
     private void OnEnable()
@@ -50,6 +53,7 @@ public class GameStartUIHandler : MonoBehaviour
         {
             mouseBarrier.SetActive(false);
         }
+        scoreUI?.SetActive(false);
 
         Time.timeScale = 0f;
         Cursor.visible = true;

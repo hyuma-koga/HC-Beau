@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private ScoreUIController scoreUI;
     [SerializeField] private float riseSpeed = 2f; //上昇スピード
 
     private Vector3 initialPosition;
@@ -30,6 +32,9 @@ public class PlayerController : MonoBehaviour
     public void StartRise()
     {
         isStarted = true;
+        scoreManager?.ResetScore();
+        scoreManager?.StartScore();
+        scoreUI?.SetActive(true);
     }
 
     // プレイヤーのステータスだけ初期化（表示はしない）
@@ -45,6 +50,9 @@ public class PlayerController : MonoBehaviour
         transform.position = initialPosition;
         rb.simulated = true;
         rb.gravityScale = 0;
+
+        scoreManager?.StopScore();
+        scoreUI?.SetActive(false);
 
         Collider2D col = GetComponent<Collider2D>();
 
@@ -66,6 +74,7 @@ public class PlayerController : MonoBehaviour
         gameObject.SetActive(true);
         isStarted = false;
         rb.linearVelocity = new Vector2(0f, 0f);
+        scoreUI?.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

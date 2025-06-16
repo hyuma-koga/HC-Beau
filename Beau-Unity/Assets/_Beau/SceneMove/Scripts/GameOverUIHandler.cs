@@ -10,6 +10,7 @@ public class GameOverUIHandler : MonoBehaviour
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject waitUI;
     [SerializeField] private GameObject titleUI;
+    [SerializeField] private ScoreUIController scoreUI;
 
     [Header("カウントダウン設定")]
     [SerializeField] private Image countdownCircleImage;
@@ -123,6 +124,11 @@ public class GameOverUIHandler : MonoBehaviour
             waitUI.SetActive(false);
         }
 
+        if (scoreUI != null)
+        {
+            scoreUI.SetActive(false);
+        }
+
         if (titleUI != null)
         {
             titleUI.SetActive(true);
@@ -154,6 +160,11 @@ public class GameOverUIHandler : MonoBehaviour
         if (waitUI != null)
         {
             waitUI.SetActive(true);
+        }
+
+        if (scoreUI != null)
+        {
+            scoreUI.SetActive(false);
         }
 
         FindFirstObjectByType<GameWaitUIHandler>()?.EnableWaitInput();
