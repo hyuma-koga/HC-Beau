@@ -68,7 +68,7 @@ public class StageManager : MonoBehaviour
 
         if (!skipTransition && transitionController != null)
         {
-            yield return StartCoroutine(transitionController.PlayTransition(stageNumber));
+            yield return StartCoroutine(transitionController.PlayTransition(stageNumber)); // ✅ 引数追加
         }
 
         if (backgroundRenderer != null && stage.backgroundSprite != null)
@@ -79,7 +79,7 @@ public class StageManager : MonoBehaviour
         ObstacleSpawner spawner = FindFirstObjectByType<ObstacleSpawner>();
         if (spawner != null)
         {
-            Debug.Log($"✅ ObstacleSpawner found → ステージ {stageNumber} を生成します");
+            Debug.Log($"\u2705 ObstacleSpawner found → ステージ {stageNumber} を生成します");
             spawner.ClearStage();
             spawner.SpawnSpecificStage(stage);  // baseY含む
         }
@@ -125,15 +125,16 @@ public class StageManager : MonoBehaviour
         StartCoroutine(ApplyStageRoutine(currentStageIndex, firstStage, skipTransition: true));
     }
 
-    public void ShowTransitionPanelOnly(int stageNumber)
+    public IEnumerator ShowTransitionPanelOnly()
     {
         if (transitionController != null)
         {
-            StartCoroutine(transitionController.PlayTransition(stageNumber));
+            int stageNumber = currentStageIndex + 1; // または別のロジックで番号指定
+            yield return transitionController.PlayTransition(stageNumber); // ✅ 引数付き呼び出し
         }
     }
 
-    public IEnumerator NextStageCoroutine(int stageNumber)
+    public IEnumerator NextStageCoroutine()
     {
         if (currentStageIndex < stageList.Length - 1)
         {
@@ -145,11 +146,42 @@ public class StageManager : MonoBehaviour
 
     public StageData GetStageDataAt(int index)
     {
-        if(stageList == null || index < 0 || index >= stageList.Length)
+        if (stageList == null || index < 0 || index >= stageList.Length)
         {
             return null;
         }
 
         return stageList[index];
     }
+
+    public void IncrementStage()
+    {
+        currentStageIndex++;
+        OnStageChanged?.Invoke(currentStageIndex);
+    }
+    public IEnumerator PlayTransitionPanel(int stageNumber)
+    {
+        if (transitionController != null)
+        {
+            yield return StartCoroutine(transitionController.PlayTransition(stageNumber));
+        }
+    }
+
+    public void ApplyStage(int index, StageData stageData)
+    {
+        if (backgroundRenderer != null && stageData.backgroundSprite != null)
+        {
+            backgroundRenderer.sprite = stageData.backgroundSprite;
+        }
+
+        var spawner = FindFirstObjectByType<ObstacleSpawner>();
+        if (spawner != null)
+        {
+            spawner.ClearStage();
+            spawner.SpawnSpecificStage(stageData);
+        }
+
+        OnStageChanged?.Invoke(index);
+    }
+
 }

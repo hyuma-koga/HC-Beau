@@ -20,18 +20,17 @@ public class StageTransitionController : MonoBehaviour
         if (panel != null)
         {
             rect = panel.GetComponent<RectTransform>();
-            rect.anchoredPosition = startPos; // 初期位置リセット
+            rect.anchoredPosition = startPos;
             panel.SetActive(false);
         }
     }
 
     public IEnumerator PlayTransition(int stageNumber)
     {
-        if (panel == null || rect == null) yield break;
-
-        rect.anchoredPosition = startPos; // 先に位置リセット
+        panel.SetActive(true);
         stageText.text = $"{stageNumber}";
-        panel.SetActive(true);            // 表示は位置セット後に
+
+        rect.anchoredPosition = startPos;
 
         float elapsed = 0f;
         while (elapsed < scrollDuration)
@@ -43,8 +42,7 @@ public class StageTransitionController : MonoBehaviour
 
         rect.anchoredPosition = endPos;
 
-        // 少し表示キープ（任意）
-        yield return new WaitForSeconds(0f);
+        yield return new WaitForSecondsRealtime(5f);
 
         panel.SetActive(false);
     }

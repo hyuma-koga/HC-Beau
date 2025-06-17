@@ -1998,7 +1998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 996789777}
-  preSpawnOffset: 10
+  preSpawnOffset: 7
 --- !u!1 &885676802
 GameObject:
   m_ObjectHideFlags: 0
@@ -3940,7 +3940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 996789777}
   firstTransitionY: 2
-  intervalY: 30
+  intervalY: 18
 --- !u!1 &1579459307
 GameObject:
   m_ObjectHideFlags: 0

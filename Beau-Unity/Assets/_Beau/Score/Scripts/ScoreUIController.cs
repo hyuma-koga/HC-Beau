@@ -33,8 +33,8 @@ public class ScoreUIController : MonoBehaviour
     {
         if (stageLevelText != null)
         {
-            // 最初は「0」ステージとして表示、それ以降は「1」から進める
-            stageLevelText.text = stageNumber == 0 ? "0" : $"{stageNumber}";
+            // 現在の stageNumber をそのまま表示（0ステージ表示をやめる）
+            stageLevelText.text = stageNumber.ToString();
         }
     }
 
