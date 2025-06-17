@@ -1,51 +1,70 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class ObstacleSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject obstaclePrefab;
-    [SerializeField] private WallSpawner wallSpawner;
-    [SerializeField] private int spawnCount = 20;
-    [SerializeField] private float spacingY = 2f;
-    [SerializeField] private float baseY = 6f;
-    [SerializeField] private float fixedX = -0.3f;
-    [SerializeField] private Transform cameraTarget;
+    [Header("生成位置の基準（オプション）")]
+    [SerializeField] private Transform spawnRoot;
 
-    private List<GameObject> spawnedObstacles = new List<GameObject>();
+    private GameObject currentStageInstance;
 
-    public void SpawnObstacleLine()
+    /// <summary>
+    /// 指定したY座標にステージPrefabを生成
+    /// </summary>
+    /// <param name="spawnY">生成するY座標</param>
+    public void SpawnStageAtY(float spawnY)
     {
-        if (obstaclePrefab == null || cameraTarget == null || wallSpawner == null)
+        StageData stageData = StageManager.Instance?.CurrentStageData;
+        if (stageData == null || stageData.stagePrefab == null)
         {
+            Debug.LogWarning("StageData または stagePrefab が未設定です。");
             return;
         }
 
-        float startY = baseY;
-
-        Vector3 firstObstaclePos = new Vector3(fixedX, startY, 0f);
-        wallSpawner.SpawnWallsAround(firstObstaclePos);
-
-
-        for (int i = 0; i < spawnCount; i++)
+        // 古いステージを削除
+        if (currentStageInstance != null)
         {
-            float y = startY + (spacingY * i);
-            Vector3 spawnPos = new Vector3(fixedX, y, 0f);
-
-            GameObject obstacle = Instantiate(obstaclePrefab, spawnPos, Quaternion.identity);
-            spawnedObstacles.Add(obstacle);
+            Debug.Log($"Destroying previous stage: {currentStageInstance.name}");
+            Destroy(currentStageInstance);
         }
+
+        // 新しいステージの生成位置を決定
+        Vector3 basePos = spawnRoot != null ? spawnRoot.position : Vector3.zero;
+        Vector3 spawnPos = new Vector3(basePos.x, spawnY, basePos.z);
+
+        // ステージPrefabを生成
+        Debug.Log($"Spawning new stage prefab: {stageData.stagePrefab.name} at Y={spawnY}");
+        currentStageInstance = Instantiate(stageData.stagePrefab, spawnPos, Quaternion.identity);
     }
 
-    public void ClearObstacles()
+    /// <summary>
+    /// 現在のステージPrefabを削除
+    /// </summary>
+    public void ClearStage()
     {
-        foreach(var obs in spawnedObstacles)
+        if (currentStageInstance != null)
         {
-            if(obs != null)
-            {
-                Destroy(obs);
-            }
+            Destroy(currentStageInstance);
+            currentStageInstance = null;
+        }
+    }
+
+    public void SpawnSpecificStage(StageData stageData)
+    {
+        if (stageData == null || stageData.stagePrefab == null)
+        {
+            Debug.LogWarning("StageData または stagePrefab が未設定です。");
+            return;
         }
 
-        spawnedObstacles.Clear();
+        if (currentStageInstance != null)
+        {
+            Destroy(currentStageInstance);
+        }
+
+        Vector3 basePos = spawnRoot != null ? spawnRoot.position : Vector3.zero;
+        Vector3 spawnPos = new Vector3(basePos.x, stageData.baseY, basePos.z);
+
+        currentStageInstance = Instantiate(stageData.stagePrefab, spawnPos, Quaternion.identity);
     }
+
 }

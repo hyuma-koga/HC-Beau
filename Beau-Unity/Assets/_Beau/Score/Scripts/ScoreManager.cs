@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private float scorePerSecond = 5f;
+    [SerializeField] private float scorePerSecond = 4f;
     private float currentScore = 0f;
     private bool isGameRunning = false;
 

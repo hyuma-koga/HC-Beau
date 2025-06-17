@@ -8,7 +8,6 @@ public class GameWaitUIHandler : MonoBehaviour
     [Header("ゲームオブジェクト")]
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject mouseBarrier;
-    [SerializeField] private ObstacleSpawner obstacleSpawner;
 
     private bool waitingForClick = false;
     private bool skipFirstFrame = false;
@@ -25,17 +24,17 @@ public class GameWaitUIHandler : MonoBehaviour
     {
         Time.timeScale = 0f;
 
-        if(waitUI != null)
+        if (waitUI != null)
         {
             waitUI.SetActive(true);
         }
 
-        if(mouseBarrier != null)
+        if (mouseBarrier != null)
         {
             mouseBarrier.SetActive(true);
         }
 
-        if(player != null)
+        if (player != null)
         {
             var controller = player.GetComponent<PlayerController>();
             controller?.ShowOnly();
@@ -48,11 +47,9 @@ public class GameWaitUIHandler : MonoBehaviour
     private void Update()
     {
         if (!waitingForClick)
-        {
             return;
-        }
 
-        if(skipFrameCount > 0)
+        if (skipFrameCount > 0)
         {
             skipFrameCount--;
             return;
@@ -72,20 +69,20 @@ public class GameWaitUIHandler : MonoBehaviour
 
     private void StartGame()
     {
-        if(waitUI != null)
+        if (waitUI != null)
         {
             waitUI.SetActive(false);
         }
 
-        if(player != null)
+        if (player != null)
         {
             var controller = player.GetComponent<PlayerController>();
             controller?.StartRise();
         }
 
-        if(obstacleSpawner != null)
+        if (StageManager.Instance != null)
         {
-            obstacleSpawner.SpawnObstacleLine();
+            StageManager.Instance.StartFirstStage(); // ← 初回ステージ生成＆背景切替
         }
 
         Time.timeScale = 1f;
