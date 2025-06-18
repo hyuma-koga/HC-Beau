@@ -133,9 +133,13 @@ public class GameOverUIHandler : MonoBehaviour
         {
             titleUI.SetActive(true);
         }
-        
-        CleanupObstacles();
+
+        var spawner = FindFirstObjectByType<ObstacleSpawner>();
+        spawner?.ClearStage();
         ResetPlayerPosition();
+        StageManager.Instance?.ResetStageIndex();
+        FindFirstObjectByType<StageProgressByDistance>()?.ResetTransitionState();
+
 
         if (player != null)
         {
@@ -169,6 +173,15 @@ public class GameOverUIHandler : MonoBehaviour
 
         FindFirstObjectByType<GameWaitUIHandler>()?.EnableWaitInput();
         CleanupObstacles();
+
+        // ステージ位置とインデックスを初期化
+        var spawner = FindFirstObjectByType<ObstacleSpawner>();
+        spawner?.ClearStage();
+        spawner?.ResetSpawnHeight(10f);
+
+        StageManager.Instance?.ResetStageIndex(); // これを追加！
+        FindFirstObjectByType<StageProgressByDistance>()?.ResetTransitionState();
+
         ResetPlayerPosition();
 
         if (player != null)
@@ -178,10 +191,7 @@ public class GameOverUIHandler : MonoBehaviour
             controller?.ShowOnly();
 
             var camFollow = Camera.main.GetComponent<CameraFollow>();
-            if (camFollow != null)
-            {
-                camFollow.SetTarget(player.transform);
-            }
+            camFollow?.SetTarget(player.transform);
         }
 
         if (mouseBarrier != null)

@@ -40,7 +40,6 @@ public class StageProgressByDistance : MonoBehaviour
 
         // ステージカウント+1 & UI更新
         StageManager.Instance.IncrementStage();
-
         int stageNumber = StageManager.Instance.GetCurrentStage();
 
         // パネル表示（ステージ番号に基づく）
@@ -50,10 +49,17 @@ public class StageProgressByDistance : MonoBehaviour
         StageData stageData = StageManager.Instance.GetStageDataAt(stageNumber);
         if (stageData != null)
         {
-            StageManager.Instance.ApplyStage(stageNumber, stageData);
+            var spawner = FindFirstObjectByType<ObstacleSpawner>();
+            spawner?.SpawnNextStage(stageData);
         }
 
         nextTransitionY += intervalY;
+        isTransitioning = false;
+    }
+
+    public void ResetTransitionState()
+    {
+        nextTransitionY = firstTransitionY;
         isTransitioning = false;
     }
 }

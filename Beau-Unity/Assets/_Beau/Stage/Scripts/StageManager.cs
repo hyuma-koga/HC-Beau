@@ -59,6 +59,11 @@ public class StageManager : MonoBehaviour
         StartCoroutine(ApplyStageRoutine(currentStageIndex, firstStage, skipTransition: true));
     }
 
+    public void ResetStageIndex()
+    {
+        currentStageIndex = 0;
+    }
+
     private IEnumerator ApplyStageRoutine(int index, StageData stage, bool skipTransition = false)
     {
         if (stageList == null || index < 0 || index >= stageList.Length)
@@ -121,8 +126,32 @@ public class StageManager : MonoBehaviour
 
     public void StartFirstStage()
     {
+        if (stageList == null || stageList.Length == 0)
+        {
+            Debug.LogError("StageManager: stageList が空です！");
+            return;
+        }
+
+        if (currentStageIndex < 0 || currentStageIndex >= stageList.Length)
+        {
+            Debug.LogError($"StageManager: currentStageIndex {currentStageIndex} が不正です");
+            return;
+        }
+
         StageData firstStage = stageList[currentStageIndex];
-        StartCoroutine(ApplyStageRoutine(currentStageIndex, firstStage, skipTransition: true));
+
+        var spawner = FindFirstObjectByType<ObstacleSpawner>();
+        if (spawner != null)
+        {
+            spawner.SpawnNextStage(firstStage);
+        }
+
+        if (backgroundRenderer != null && firstStage.backgroundSprite != null)
+        {
+            backgroundRenderer.sprite = firstStage.backgroundSprite;
+        }
+
+        OnStageChanged?.Invoke(currentStageIndex);
     }
 
     public IEnumerator ShowTransitionPanelOnly()

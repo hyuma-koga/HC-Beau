@@ -80,10 +80,19 @@ public class GameWaitUIHandler : MonoBehaviour
             controller?.StartRise();
         }
 
-        if (StageManager.Instance != null)
+        var backgrounds = FindObjectsByType<LoopingBackground>(FindObjectsSortMode.None);
+        foreach (var bg in backgrounds)
         {
-            StageManager.Instance.StartFirstStage(); // ← 初回ステージ生成＆背景切替
+            bg.ResetPosition();
         }
+
+        var spawner = FindFirstObjectByType<ObstacleSpawner>();
+        spawner?.ClearStage(); // 念のため前のステージ削除
+        spawner?.ResetSpawnHeight(10f); // ←  最初のステージのY位置を10に！
+
+        StageManager.Instance?.ResetStageIndex();
+        FindFirstObjectByType<StageProgressByDistance>()?.ResetTransitionState(); // ← 追加
+        StageManager.Instance?.StartFirstStage();
 
         Time.timeScale = 1f;
         waitingForClick = false;

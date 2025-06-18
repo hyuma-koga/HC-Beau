@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stagePrefab: {fileID: 8680522352677256651, guid: d0fed87561e7df84ba649d379b803442, type: 3}
   backgroundSprite: {fileID: 21300000, guid: 5da8a4d7cc7af6948a8534a26f0077d2, type: 3}
-  baseY: 27
+  baseY: 25

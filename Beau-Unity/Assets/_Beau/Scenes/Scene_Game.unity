@@ -3939,8 +3939,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTransform: {fileID: 996789777}
-  firstTransitionY: 2
-  intervalY: 18
+  firstTransitionY: 0
+  intervalY: 20
 --- !u!1 &1579459307
 GameObject:
   m_ObjectHideFlags: 0
@@ -4846,6 +4846,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRoot: {fileID: 1260809483}
+  spacingY: 20
+  maxStageInstances: 2
 --- !u!4 &1886182464
 Transform:
   m_ObjectHideFlags: 0

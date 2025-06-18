@@ -25,6 +25,9 @@ public class GameStartUIHandler : MonoBehaviour
             mouseBarrier.SetActive(false);
         }
 
+        var background = FindFirstObjectByType<LoopingBackground>();
+        background?.ResetPosition();
+
         scoreUI?.SetActive(false);
     }
 
