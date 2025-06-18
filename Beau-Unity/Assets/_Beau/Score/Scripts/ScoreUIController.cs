@@ -6,6 +6,7 @@ public class ScoreUIController : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI stageLevelText;
+    [SerializeField] private int maxStageLevel = 2;
 
     private void OnEnable()
     {
@@ -33,8 +34,8 @@ public class ScoreUIController : MonoBehaviour
     {
         if (stageLevelText != null)
         {
-            // 現在の stageNumber をそのまま表示（0ステージ表示をやめる）
-            stageLevelText.text = stageNumber.ToString();
+            int displayLevel = Mathf.Min(stageNumber, maxStageLevel); // ← 表示制限
+            stageLevelText.text = displayLevel.ToString();
         }
     }
 

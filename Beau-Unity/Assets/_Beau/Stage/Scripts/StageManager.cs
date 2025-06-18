@@ -25,6 +25,7 @@ public class StageManager : MonoBehaviour
     public event Action<int> OnStageChanged;
 
     public int TotalStageCount => stageList.Length;
+    public int MaxTransitionStageCount = 2;
 
     private void Awake()
     {
@@ -188,8 +189,14 @@ public class StageManager : MonoBehaviour
         currentStageIndex++;
         OnStageChanged?.Invoke(currentStageIndex);
     }
+
     public IEnumerator PlayTransitionPanel(int stageNumber)
     {
+        if (stageNumber > MaxTransitionStageCount)
+        {
+            yield break; // これ以上はパネル表示しない
+        }
+
         if (transitionController != null)
         {
             yield return StartCoroutine(transitionController.PlayTransition(stageNumber));

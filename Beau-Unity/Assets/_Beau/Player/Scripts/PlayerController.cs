@@ -79,6 +79,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        GameOverUIHandler.Instance?.ShowGameOverUI();
+        if (other.CompareTag("Obstacle")) // Å© óéâ∫Ç‚è·äQï®Ç»Ç«
+        {
+            GameOverUIHandler.Instance?.ShowGameOverUI();
+        }
+
+        if (other.CompareTag("Goal"))
+        {
+            FindFirstObjectByType<GameClearUIHandler>()?.ShowGameClear();
+        }
     }
 }
